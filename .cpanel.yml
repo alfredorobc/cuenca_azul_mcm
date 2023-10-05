@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home4/mbmlocc8/cuencaazul.mbmlogin.com/
+    - /bin/rsync -av ./ $DEPLOYPATH
