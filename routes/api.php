@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ControlGarrafonesController;
+use App\Http\Controllers\GarrafonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,12 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register',[AuthController::class,'store']);
-    Route::post('/login',[AuthController::class, 'login']);
+    Route::post('/login',[AuthController::class, 'login'])->name('login');
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('control')->group(function () {
         Route::get('/activos',[ControlGarrafonesController::class,'index']);
+        Route::get('/inventario',[GarrafonController::class,'index']);
         Route::post('/register',[ControlGarrafonesController::class,'store']);
         Route::put('/finish',[ControlGarrafonesController::class, 'finalizarControl']);
     });

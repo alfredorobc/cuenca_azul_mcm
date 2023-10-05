@@ -7,6 +7,7 @@ use App\Models\ControlGarrafones;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ControlGarrafonesController extends Controller
 {
@@ -37,7 +38,7 @@ class ControlGarrafonesController extends Controller
     {
         $rules = [
             'user_id' => ['required','numeric'],
-            'garrafon_ids' => ['required','array']
+            'garrafon_ids' => ['required','array'],
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -45,6 +46,7 @@ class ControlGarrafonesController extends Controller
         if($validator->fails()){
             return response()->json([
                         'status' => false,
+                        'otro'=>'dsds',
                         'errors' => $validator->errors()->all()
                     ],400);
         }
@@ -53,18 +55,42 @@ class ControlGarrafonesController extends Controller
         $garrafon_ids = $request->input('garrafon_ids');
         $fecha_salida = Carbon::now();
 
+        $garrafones_existentes = [];
+
         foreach ($garrafon_ids as $garrafon_id) {
-            ControlGarrafones::create([
-                'fecha_salida' => $fecha_salida,
-                'user_id' => $user_id,
-                'garrafon_id' => $garrafon_id,
-            ]);
+
+            $existingRecord = ControlGarrafones::where('garrafon_id', $garrafon_id)
+                            ->whereNull('fecha_entrada')
+                            ->first();
+
+            if (!$existingRecord) {
+                // Si no existe, crear un nuevo registro
+                ControlGarrafones::create([
+                    'fecha_salida' => $fecha_salida,
+                    'user_id' => $user_id,
+                    'garrafon_id' => $garrafon_id,
+                ]);
+            }else{
+                $garrafones_existentes[] = $garrafon_id;
+            }
+
         }
 
-        return response()->json([
-                    'status' => true,
-                    'message' => 'registro creado'
-                ],200);
+        if(count($garrafones_existentes) > 0){
+
+            return response()->json([
+                        'status' => false,
+                        'message' => count($garrafones_existentes) . ' garrafones de un total de '. count($garrafon_ids) .' ya tienen registro',
+                        'data' => $garrafones_existentes
+                    ],200);
+        }else{
+
+            return response()->json([
+                        'status' => true,
+                        'message' => 'registros creados exitosamente'
+                    ],200);
+        }
+
     }
 
     /**

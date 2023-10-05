@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Garrafon;
 use Illuminate\Http\Request;
 
 class GarrafonController extends Controller
@@ -11,7 +12,9 @@ class GarrafonController extends Controller
      */
     public function index()
     {
+        $datos = Garrafon::where('status', 1)->paginate(20);
 
+        return response()->json($datos);
     }
 
     /**
