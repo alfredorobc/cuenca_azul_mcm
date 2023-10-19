@@ -1,0 +1,10 @@
+/* Botones */
+@layer components{
+    .btn{
+        @apply px-4 py-2 rounded shadow focus:shadow-md focus:outline-none transition-all
+    }
+
+    .btn-primary{
+        @apply dark:text-white text-black bg-blue-600 hover:bg-blue-900 ring-blue-400 focus:ring
+    }
+}
