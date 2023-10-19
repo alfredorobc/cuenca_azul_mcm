@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ControlGarrafonesController;
 use App\Http\Controllers\GarrafonController;
+use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('contact', [MailController::class,'send'])->name('contact.send');
 
 Route::prefix('auth')->group(function () {
     Route::post('/register',[AuthController::class,'store']);
@@ -33,7 +36,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('auth/logout',[AuthController::class, 'logout']);
 
 });
-
 
 Route::fallback(function () {
     return response('Método no permitido', 400);
