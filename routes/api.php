@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('contact', [MailController::class,'send'])->name('contact.send');
-
 Route::prefix('auth')->group(function () {
     Route::post('/register',[AuthController::class,'store']);
     Route::post('/login',[AuthController::class, 'login'])->name('login');

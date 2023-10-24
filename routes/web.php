@@ -19,6 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::post('contact', function(){
+    dd('work');
+})->name('contact.send');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

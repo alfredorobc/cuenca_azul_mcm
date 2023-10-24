@@ -259,7 +259,7 @@
                 </div>
 
                 <div class="lg:w-1/3 md:w-1/2 dark:text-white  dark:bg-slate-800 transition flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-                    <form action="{{route('contact.send')}}" method="POST">
+                    <form action="{{ route('contact.send') }}" method="POST">
                         <h2 class=" text-lg mb-1 font-medium title-font">Escríbenos</h2>
                         <p class="leading-relaxed mb-5 ">Realiza tus pedidos a través de nuestro número o envíanos un correo.</p>
                         <div class="relative mb-4">

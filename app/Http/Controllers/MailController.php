@@ -18,7 +18,7 @@ class MailController extends Controller
             'message' => $request['message'] ?? ''
         ];
 
-        Mail::to('H2O@mcmteam.com')->send(new ContactMail($mailData));
+        // Mail::to('H2O@mcmteam.com')->send(new ContactMail($mailData));
 
         return back();
 
